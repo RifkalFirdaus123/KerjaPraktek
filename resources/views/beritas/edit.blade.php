@@ -25,7 +25,7 @@
 
         <div class="mb-3">
             <label for="konten" class="form-label">Isi Berita</label>
-            <textarea name="isi" id="konten" class="form-control" rows="5" required>{{ old('konten', $berita->konten) }}</textarea>
+            <textarea name="isi" id="konten" class="form-control" rows="5" required>{{ old('konten', $berita->isi) }}</textarea>
         </div>
 
         <div class="mb-3">

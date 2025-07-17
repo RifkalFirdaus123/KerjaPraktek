@@ -5,7 +5,6 @@
   <li class="breadcrumb-item active" aria-current="page">Event</li>
 @endsection
 
-
 @section('content')
 <div class="container">
     <h1 class="text-center mb-4">Daftar Event</h1>
@@ -34,7 +33,6 @@
                         <p class="card-text text-muted mb-2">
                             <i class="bi bi-calendar"></i> {{ $event->tanggal_event }} 
                             <i class="bi bi-clock ms-2"></i> {{ \Carbon\Carbon::parse($event->waktu)->format('H:i') }}
-
                         </p>
                         
                         <p class="card-text flex-grow-1">{{ Str::limit($event->deskripsi, 100) }}</p>
@@ -49,10 +47,12 @@
                             @auth
                                 <div class="d-grid gap-2">
                                     <a href="{{ route('events.edit', ['event' => $event->id]) }}" class="btn btn-warning">Edit</a>
-                                    <form action="{{ route('events.destroy', ['event' => $event->id]) }}" method="POST">
+                                    <form action="{{ route('events.destroy', ['event' => $event->id]) }}" method="POST" class="form-delete-event">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" onclick="return confirm('Yakin ingin menghapus event ini?')" class="btn btn-danger w-100">Hapus</button>
+                                        <button type="submit" class="btn btn-danger w-100 delete-button" data-nama="{{ $event->nama_event }}">
+                                            Hapus
+                                        </button>
                                     </form>
                                 </div>
                             @endauth
@@ -82,6 +82,36 @@
     AOS.init({
         once: true,
         duration: 800
+    });
+</script>
+
+<!-- SweetAlert Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const deleteForms = document.querySelectorAll('.form-delete-event');
+
+        deleteForms.forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const eventName = form.querySelector('.delete-button').getAttribute('data-nama');
+
+                Swal.fire({
+                    title: 'Yakin ingin menghapus?',
+                    text: `Event "${eventName}" akan dihapus secara permanen.`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
     });
 </script>
 

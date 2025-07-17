@@ -64,9 +64,9 @@ class EventController extends Controller
         $validated = $request->validate([
             'nama_event' => 'required|string|max:255',
             'deskripsi'  => 'required|string',
-            'foto'       => 'nullable|image|max:2048',
-            'tanggal_event'    => 'nullable|date',
-            'waktu'      => 'nullable|date_format:H:i',
+            'foto'       => 'nullable|image',
+            'tanggal_event'    => 'nullable',
+            'waktu'      => 'nullable',
         ]);
 
         if ($request->hasFile('foto')) {
