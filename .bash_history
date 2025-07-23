@@ -19,3 +19,11 @@ exit
 php artisan migrate
 php artisan db:seed
 exit
+  cd storage/logs
+  tail -n 50 laravel.log
+php artisan migrate:fresh --seed
+php artisan migrate:fresh --seed
+php artisan migrate:fresh --seed
+exit
+php artisan migrate:fresh --seed
+exit
