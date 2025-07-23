@@ -203,7 +203,6 @@
                     <div class="mb-4">
                         <h3 class="text-start">Selamat datang di Laboratorium Jaringan Komputer, Keamanan Data, dan IoT</h3> <!-- Changed to text-start -->
                         <div class="lab-description text-start"> <!-- Added text-start -->
-                            {!! $labDescription !!}
                         </div>
                         <p>
                             Lab. Jaringan Komputer, Keamanan Data, dan Internet of Things merupakan pusat penelitian dan pengembangan

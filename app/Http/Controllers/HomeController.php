@@ -14,7 +14,6 @@ class HomeController extends Controller
     public function index()
     {
         return view('homes.index', [
-            'labDescription' => Setting::first()?->lab_description,
             'beritaTerbaru' => Berita::latest()->take(5)->get(),
             'eventTerbaru' => Event::latest()->take(5)->get(),
             'descriptions' => \App\Models\Description::all(),

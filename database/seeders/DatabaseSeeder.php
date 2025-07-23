@@ -14,12 +14,13 @@ class DatabaseSeeder extends Seeder
     {
         User::create([
                 'name' => 'Admin',
-                'email' => 'admin@example.com',
+                'email' => 'admin@gmail.com',
                 'email_verified_at' => now(),
-                'password' => Hash::make('password123'), // Gantilah dengan password yang diinginkan
+                'password' => Hash::make('adminjarkom2025'), // Gantilah dengan password yang diinginkan
                 'remember_token' => Str::random(10),
                 'created_at' => now(),
                 'updated_at' => now(),
         ]);
+        $this->call(\Database\Seeders\AdminSeeder::class);
     }
 }

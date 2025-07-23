@@ -46,7 +46,7 @@
 
     .nav-item a {
       color: white;
-      font-size: 14px;
+      font-size: 12px;
     }
 
     .nav-item a:hover {
@@ -80,17 +80,17 @@
           <li class="nav-item"><a class="nav-link" href="{{ route('dosens.index') }}">Dosen</a></li>
           <li class="nav-item"><a class="nav-link" href="{{ route('beritas.index') }}">Berita</a></li>
           <li class="nav-item"><a class="nav-link" href="{{ route('events.index') }}">Event</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('peminjaman-barangs.index') }}">Peminjaman Barang</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('peminjaman-barangs.index') }}">Peminjaman</a></li>
           <li class="nav-item"><a class="nav-link" href="{{ route('permintaans.index') }}">Permintaan</a></li>
 
           @auth
             <li class="nav-item"><a class="nav-link" href="{{ route('kehadirans.index') }}">Kehadiran</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('admin.changePasswordForm') }}">Admin</a></li>
             <li class="nav-item">
-              <a href="#" id="btnLogout" style="font-size: 14px;" class="btn btn-link nav-link px-0 text-white">Logout</a>
-              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-              </form>
+                <a class="nav-link" href="#" id="btnLogout">Logout</a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
             </li>
           @else
             <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
