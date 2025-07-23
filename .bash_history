@@ -27,3 +27,11 @@ php artisan migrate:fresh --seed
 exit
 php artisan migrate:fresh --seed
 exit
+exit
+ls -la /var/www/public/index.php
+exit
+chown -R www-data:www-data /var/www
+chmod -R 755 /var/www
+docker restart kerjapraktik_nginx
+docker restart kerjapraktik_nginx
+exit
