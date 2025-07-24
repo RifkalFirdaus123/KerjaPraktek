@@ -35,3 +35,7 @@ chmod -R 755 /var/www
 docker restart kerjapraktik_nginx
 docker restart kerjapraktik_nginx
 exit
+curl -i http://localhost
+curl -i http://127.0.0.1
+docker ps
+exit
