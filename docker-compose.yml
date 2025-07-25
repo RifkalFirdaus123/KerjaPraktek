@@ -1,7 +1,6 @@
-version: '3'
+version: '3.8'
 
 services:
-  # PHP-FPM (Laravel)
   app:
     build:
       context: .
@@ -19,7 +18,6 @@ services:
       timeout: 10s
       retries: 3
 
-  # MySQL
   db:
     image: mysql:8.0
     container_name: kerjapraktik_db
@@ -39,10 +37,9 @@ services:
       timeout: 10s
       retries: 3
 
-  # Nginx
   nginx:
     image: nginx:alpine
-    container_name: test-jarkom-webprofile
+    container_name: kerjapraktik_nginx
     restart: unless-stopped
     ports:
       - "80:80"
@@ -61,7 +58,6 @@ services:
 
 volumes:
   dbdata:
-    driver: local
 
 networks:
   kerjapraktik_network:

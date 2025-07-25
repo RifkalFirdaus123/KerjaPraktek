@@ -71,15 +71,14 @@ Route::delete('/kehadirans/{kehadiran}/delete',
     Route::put('/permintaan/{id}/return', [PermintaanController::class, 'markAsReturned'])->name('peminjaman.return');
 
 // Rute untuk memperbarui status permintaan
-Route::post('/permintaans/{id}/update-status', [PermintaanController::class, 'updateStatus'])
-    ->name('permintaans.updateStatus');
+
 
 
     // Rute untuk menampilkan daftar permintaan peminjaman barang
 Route::get('/permintaans', [PermintaanController::class, 'index'])->name('permintaans.index');
 
 
-Route::put('/permintaans/{id}/disetujui', [PermintaanController::class, 'updateStatus'])->name('permintaans.updateStatus');
+Route::put('/permintaans/{id}/disetujui', [PermintaanController::class, 'updateStatus'])->name('permintaans.updateStatusDisetujui');
 Route::put('/permintaans/{id}/ditolak', [PermintaanController::class, 'updateStatusDitolak'])->name('permintaans.updateStatusDitolak');
 
 Route::resource('event', \App\Http\Controllers\EventController::class);
