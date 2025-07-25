@@ -27,7 +27,8 @@ services:
     environment:
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      SERVICE_NAME: mysql
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - dbdata:/var/lib/mysql
     networks:
@@ -48,6 +49,8 @@ services:
     volumes:
       - ./:/var/www
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - app
     networks:
       - kerjapraktik_network
     healthcheck:
@@ -56,10 +59,10 @@ services:
       timeout: 10s
       retries: 3
 
-networks:
-  kerjapraktik_network:
-    driver: bridge
-
 volumes:
   dbdata:
     driver: local
+
+networks:
+  kerjapraktik_network:
+    driver: bridge
