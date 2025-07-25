@@ -22,17 +22,17 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
-# Copy existing application directory contents
+# Salin file project dengan hak akses root (sementara)
 COPY . /var/www
 
-# Copy existing application directory permissions
-COPY --chown=www-data:www-data . /var/www
+# Ubah ownership direktori ke www-data
+RUN chown -R www-data:www-data /var/www
 
-# Change current user to www-data
+# Ubah user jadi www-data untuk keamanan saat run
 USER www-data
 
 # Expose port 9000
 EXPOSE 9000
 
-# Start php-fpm server
+# Jalankan PHP-FPM
 CMD ["php-fpm"]
