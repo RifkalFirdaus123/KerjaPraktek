@@ -41,7 +41,7 @@ services:
   # Nginx
   nginx:
     image: nginx:alpine
-    container_name: test_jarkom_webprofile
+    container_name: test-jarkom-webprofile
     restart: unless-stopped
     ports:
       - "80:80"
