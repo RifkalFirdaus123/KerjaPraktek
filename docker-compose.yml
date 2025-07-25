@@ -39,7 +39,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: kerjapraktik_nginx
+    container_name: test_jarkom_webprofile
     restart: unless-stopped
     ports:
       - "80:80"
