@@ -9,8 +9,8 @@ RUN chmod +x /usr/local/bin/install-php-extensions && \
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git curl libzip-dev unzip && \
-    mariadb-client \
+    git curl libzip-dev unzip \
+    mariadb-client &&\
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
