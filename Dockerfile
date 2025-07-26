@@ -10,7 +10,8 @@ RUN chmod +x /usr/local/bin/install-php-extensions && \
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     git curl libzip-dev unzip \
-    mariadb-client &&\
+    mariadb-client \
+    supervisor && \ 
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install Composer
@@ -30,6 +31,12 @@ RUN composer install --no-dev --optimize-autoloader && \
     php artisan route:cache && \
     php artisan view:cache
 
+# --- Supervisor Configuration ---
+# LANGKAH 1: Buat direktori log untuk Supervisor
+RUN mkdir -p /var/log/supervisor
+# LANGKAH 2: SALIN file konfigurasi Supervisor dari root proyek Anda ke dalam kontainer
+COPY php-fpm.conf /etc/supervisor/conf.d/php-fpm.conf 
 EXPOSE 9000
 
-CMD ["php-fpm"]
+# LANGKAH 3: Ubah CMD untuk menjalankan Supervisor, BUKAN LANGSUNG php-fpm
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
