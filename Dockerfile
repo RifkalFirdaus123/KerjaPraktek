@@ -2,29 +2,40 @@ FROM php:8.2-fpm
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
+    nginx \
     curl \
-    zip \
-    unzip \
     git \
+    unzip \
     supervisor \
+    libzip-dev \
+    zip \
     libonig-dev \
     libxml2-dev \
-    libzip-dev \
-    nginx
-
-# Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libmcrypt-dev \
+    libicu-dev \
+    libpq-dev \
+    libcurl4-openssl-dev \
+    && docker-php-ext-install pdo pdo_mysql mbstring zip exif pcntl
 
 # Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Copy config
-COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Copy config files
+COPY supervisord.conf /etc/supervisord.conf
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# Expose default port
-EXPOSE 9000 80
+# Copy Laravel app
+WORKDIR /var/www
+COPY . /var/www
 
-# Entrypoint
-ENTRYPOINT ["/entrypoint.sh"]
+# Create required directories
+RUN mkdir -p /var/log/nginx /var/run /run/php && chown -R www-data:www-data /var/www
+
+EXPOSE 80
+
+ENTRYPOINT ["docker-entrypoint.sh"]
