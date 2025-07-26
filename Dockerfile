@@ -1,36 +1,30 @@
 FROM php:8.2-fpm
 
-# Install dependencies
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    nginx \
-    supervisor \
     curl \
+    zip \
     unzip \
     git \
-    libzip-dev \
-    zip \
-    libpng-dev \
+    supervisor \
     libonig-dev \
     libxml2-dev \
-    && docker-php-ext-install pdo_mysql zip mbstring exif pcntl bcmath gd
+    libzip-dev \
+    nginx
+
+# Install PHP extensions
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
 # Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy config files
-COPY supervisord.conf /etc/supervisord.conf
-COPY php-fpm.conf /usr/local/etc/php-fpm.conf
-COPY nginx.conf /etc/nginx/nginx.conf
+# Copy config
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Copy entrypoint
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+# Expose default port
+EXPOSE 9000 80
 
-# Set working directory
-WORKDIR /var/www
-
-# Expose ports
-EXPOSE 80 9000
-
-# Entrypoint untuk menjalankan supervisor
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+# Entrypoint
+ENTRYPOINT ["/entrypoint.sh"]
