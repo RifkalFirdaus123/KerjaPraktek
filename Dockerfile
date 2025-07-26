@@ -24,6 +24,10 @@ RUN chmod +x /entrypoint.sh
 WORKDIR /var/www
 COPY . /var/www
 
+COPY composer.lock composer.json /var/www/
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+
+
 # Expose port
 EXPOSE 80
 
