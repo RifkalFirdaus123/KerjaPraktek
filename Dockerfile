@@ -28,10 +28,6 @@ COPY php-fpm.conf /etc/supervisord.conf
 # Buat log folder supervisor
 RUN mkdir -p /var/log/supervisor
 
-# Copy default pool config jika belum ada
-RUN mkdir -p /usr/local/etc/php-fpm.d
-COPY ./www.conf /usr/local/etc/php-fpm.d/www.conf
-
 # Pastikan permission benar
 RUN chown -R www-data:www-data /var/www
 
