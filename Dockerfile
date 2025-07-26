@@ -1,30 +1,26 @@
 FROM php:8.2-fpm
 
-# Install dependencies
+# Install supervisor & dependencies
 RUN apt-get update && apt-get install -y \
     supervisor \
     curl \
+    vim \
     unzip \
-    git \
     libzip-dev \
     zip \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    && docker-php-ext-install pdo_mysql zip mbstring exif pcntl bcmath gd
+    && docker-php-ext-install zip pdo pdo_mysql
 
-# Install Composer
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-# Copy config files
+# Copy supervisord configuration
 COPY supervisord.conf /etc/supervisord.conf
+
+# Copy php-fpm config
 COPY php-fpm.conf /usr/local/etc/php-fpm.conf
+
+# Create required directories
+RUN mkdir -p /var/log/supervisor
 
 # Set working directory
 WORKDIR /var/www
 
-# Expose PHP-FPM port
-EXPOSE 9000
-
-# Start Supervisor
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+# Start supervisord
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]
