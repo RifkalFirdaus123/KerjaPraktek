@@ -26,8 +26,8 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Copy config files
 COPY supervisord.conf /etc/supervisord.conf
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Copy Laravel app
 WORKDIR /var/www
@@ -38,4 +38,4 @@ RUN mkdir -p /var/log/nginx /var/run /run/php && chown -R www-data:www-data /var
 
 EXPOSE 80
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["ntrypoint.sh"]
