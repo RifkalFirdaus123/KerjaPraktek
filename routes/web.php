@@ -101,6 +101,5 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/admin/change-password', [\App\Http\Controllers\AdminController::class, 'changePassword'])->name('admin.changePassword');
 });
 
-Route::resource('descriptions', DescriptionController::class)->middleware('auth');
 require __DIR__.'/auth.php';
 
