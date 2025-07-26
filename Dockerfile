@@ -4,35 +4,27 @@ FROM php:8.2-fpm
 RUN apt-get update && apt-get install -y \
     supervisor \
     curl \
-    git \
     unzip \
+    git \
     libzip-dev \
+    zip \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
-    zip \
-    && docker-php-ext-install pdo_mysql zip
+    && docker-php-ext-install pdo_mysql zip mbstring exif pcntl bcmath gd
 
 # Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Copy config files
+COPY supervisord.conf /etc/supervisord.conf
+COPY php-fpm.conf /usr/local/etc/php-fpm.conf
 
 # Set working directory
 WORKDIR /var/www
 
-# Copy Laravel files
-COPY . .
-
-# Copy supervisor config (gabung dalam 1 file)
-COPY supervisord.conf /etc/supervisord.conf
-
-# Buat direktori log
-RUN mkdir -p /var/log/supervisor
-
-# Pastikan permission benar
-RUN chown -R www-data:www-data /var/www
-
-# Expose port PHP-FPM
+# Expose PHP-FPM port
 EXPOSE 9000
 
-# Jalankan supervisor
-CMD ["/usr/bin/supervisord", "-c", "/var/www/supervisord.conf"]
+# Start Supervisor
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
