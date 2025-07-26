@@ -1,34 +1,36 @@
-FROM php:8.1-fpm
+FROM php:8.2-fpm
 
-# Install dependency
+# Install dependencies
 RUN apt-get update && apt-get install -y \
     nginx \
     supervisor \
-    git \
-    unzip \
     curl \
+    unzip \
+    git \
+    libzip-dev \
+    zip \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
-    zip \
-    libzip-dev \
-    && docker-php-ext-install pdo pdo_mysql zip mbstring
+    && docker-php-ext-install pdo_mysql zip mbstring exif pcntl bcmath gd
 
-# Copy konfigurasi Nginx dan Supervisor
-COPY nginx.conf /etc/nginx/nginx.conf
+# Install Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Copy config files
 COPY supervisord.conf /etc/supervisord.conf
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY php-fpm.conf /usr/local/etc/php-fpm.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Copy source code Laravel ke /var/www
+# Copy entrypoint
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Set working directory
 WORKDIR /var/www
-COPY . /var/www
 
-COPY composer.lock composer.json /var/www/
-RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+# Expose ports
+EXPOSE 80 9000
 
-
-# Expose port
-EXPOSE 80
-
-CMD ["/entrypoint.sh"]
+# Entrypoint untuk menjalankan supervisor
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
