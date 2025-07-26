@@ -1,26 +1,30 @@
-FROM php:8.2-fpm
+FROM php:8.1-fpm
 
-# Install supervisor & dependencies
+# Install dependency
 RUN apt-get update && apt-get install -y \
+    nginx \
     supervisor \
-    curl \
-    vim \
+    git \
     unzip \
-    libzip-dev \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
     zip \
-    && docker-php-ext-install zip pdo pdo_mysql
+    libzip-dev \
+    && docker-php-ext-install pdo pdo_mysql zip mbstring
 
-# Copy supervisord configuration
+# Copy konfigurasi Nginx dan Supervisor
+COPY nginx.conf /etc/nginx/nginx.conf
 COPY supervisord.conf /etc/supervisord.conf
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Copy php-fpm config
-COPY php-fpm.conf /usr/local/etc/php-fpm.conf
-
-# Create required directories
-RUN mkdir -p /var/log/supervisor
-
-# Set working directory
+# Copy source code Laravel ke /var/www
 WORKDIR /var/www
+COPY . /var/www
 
-# Start supervisord
-CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisord.conf"]
+# Expose port
+EXPOSE 80
+
+CMD ["/entrypoint.sh"]
