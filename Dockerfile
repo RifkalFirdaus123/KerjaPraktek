@@ -19,20 +19,20 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Set working directory
 WORKDIR /var/www
 
-# Copy Laravel project files (ubah sesuai struktur kamu)
-COPY . /var/www
+# Copy Laravel files
+COPY . .
 
-# Copy supervisor config (ini penting)
-COPY php-fpm.conf /etc/supervisord.conf
+# Copy supervisor config (gabung dalam 1 file)
+COPY supervisord.conf /etc/supervisord.conf
 
-# Buat log folder supervisor
+# Buat direktori log
 RUN mkdir -p /var/log/supervisor
 
 # Pastikan permission benar
 RUN chown -R www-data:www-data /var/www
 
-# Expose port FPM (jika pakai reverse proxy)
+# Expose port PHP-FPM
 EXPOSE 9000
 
-# Jalankan supervisor sebagai entrypoint utama
+# Jalankan supervisor
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
