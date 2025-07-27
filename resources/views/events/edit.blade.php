@@ -44,10 +44,7 @@
             <input type="time" class="form-control" id="waktu" name="waktu" value="{{ old('waktu', $event->waktu) }}">
         </div>
 
-        <div class="form-group">
-            <label for="lokasi">Lokasi Event</label>
-            <input type="text" class="form-control" id="lokasi" name="lokasi" value="{{ old('lokasi', $event->lokasi) }}" required>
-        </div>
+      
 
         <button type="submit" class="btn btn-primary">Update Event</button>
         <a href="{{ route('events.index') }}" class="btn btn-secondary">Cancel</a>
