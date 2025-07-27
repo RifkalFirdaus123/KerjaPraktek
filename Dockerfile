@@ -19,10 +19,10 @@ RUN apt-get update && apt-get install -y \
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copy all source code (including artisan, etc)
+# Copy all application files (including artisan) first
 COPY . .
 
-# Install dependencies
+# Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Set permissions for Laravel
@@ -31,4 +31,4 @@ RUN chmod -R 775 storage bootstrap/cache && \
 
 EXPOSE 9000
 
-CMD ["php-fpm"]
+CMD ["php-fpm", "-F"]
