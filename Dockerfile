@@ -1,4 +1,4 @@
-FROM laravelsail/php82-composer
+FROM php:8.2-fpm
 
 WORKDIR /var/www
 
