@@ -47,4 +47,7 @@ COPY docker/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 EXPOSE 80
 
+HEALTHCHECK --interval=60s --timeout=5s --retries=3 \
+  CMD curl --fail http://localhost || exit 1
+
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
