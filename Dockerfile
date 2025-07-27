@@ -26,15 +26,9 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 # Copy the rest of the application
 COPY . .
 
-# Set permissions
+# Set permissions for Laravel
 RUN chmod -R 775 storage bootstrap/cache && \
     chown -R www-data:www-data storage bootstrap/cache
-
-# Laravel optimize
-RUN php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache && \
-    php artisan storage:link || true
 
 EXPOSE 9000
 
