@@ -1,4 +1,4 @@
-FROM php:8.2-fpm
+FROM laravelsail/php82-composer
 
 WORKDIR /var/www
 
@@ -31,4 +31,4 @@ RUN chmod -R 775 storage bootstrap/cache && \
 
 EXPOSE 9000
 
-CMD ["php-fpm", "-F"]
+CMD ["php-fpm"]
