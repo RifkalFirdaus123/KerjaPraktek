@@ -38,4 +38,4 @@ RUN mkdir -p /var/log/nginx /var/run /run/php && chown -R www-data:www-data /var
 
 EXPOSE 80
 
-ENTRYPOINT ["ntrypoint.sh"]
+ENTRYPOINT ["entrypoint.sh"]
