@@ -23,6 +23,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # Copy Laravel project files
 COPY . .
+COPY composer.json composer.lock ./
 
 # Install Laravel dependencies
 RUN composer install --no-dev --optimize-autoloader --no-interaction
@@ -31,12 +32,19 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 RUN chmod -R 775 storage bootstrap/cache && \
     chown -R www-data:www-data storage bootstrap/cache
 
+RUN mkdir -p /run/php && chown www-data:www-data /run/php
+
+RUN mkdir -p /var/log/nginx /var/log/php-fpm
+
 # Copy Supervisor config
-COPY docker/supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY docker/supervisord/supervisord.conf /etc/supervisor/supervisord.conf
 
 # Copy Nginx config
 COPY docker/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
 
+COPY docker/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf
+
+
 EXPOSE 80
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
