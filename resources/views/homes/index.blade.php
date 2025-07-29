@@ -175,7 +175,7 @@
 
 <div class="hero">
     <div class="hero-content">
-        <img src="{{ asset('storage/logo/logo1.png') }}" alt="Logo Lab" class="hero-logo mb-3">
+        <img src="{{ secure_asset('storage/logo/logo1.png') }}" alt="Logo Lab" class="hero-logo mb-3">
         <div class="hero-text">
             Lab. Jaringan Komputer, Keamanan Data, dan Internet of Things
         </div>
