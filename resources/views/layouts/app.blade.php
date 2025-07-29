@@ -69,7 +69,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color:#191970;">
     <div class="container">
       <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
-        <img src="{{ asset('storage/logo/logo1.png') }}" alt="Logo" style="max-width: 60px; height: auto;">
+        <img src="{{ secure_asset('storage/logo/logo1.png') }}" alt="Logo" style="max-width: 60px; height: auto;">
         <span class="navbar-brand-text">Lab. Jaringan Komputer, Keamanan Data, dan Internet of Things</span>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
